@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">JustaPharma</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_detalhamento">Detalhamento</string>
+    <string name="title_activity_consulta_completa">ConsultaCompletaActivity</string>
+    <string name="title_activity_lista_medicamentos">ListaMedicamentos</string>
+    <string name="title_activity_cadastrar_estabelecimento">CadastrarEstabelecimento</string>
+    <string name="title_activity_lista_estabelecimentos">ListaEstabelecimentos</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

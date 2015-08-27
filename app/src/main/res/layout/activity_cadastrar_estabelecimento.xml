@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="#ffffffff"
+    tools:context="iesb.justapharma.activity.CadastrarEstabelecimento">
+
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNomeFantasia"
+            android:layout_column="0"
+            android:hint="Nome Fantasia" />
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtCnpj"
+            android:layout_column="0"
+            android:hint="CNPJ" />
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEndereco"
+            android:layout_column="0"
+            android:hint="Endereço" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btSalvar"
+        android:background="@drawable/img_signup"
+        android:onClick="salvarEstabelecimento"/>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btListar"
+        android:background="@drawable/img_lupa_consulta"
+        android:onClick="listarEstabelecimentos"/>
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/img_sentemail"
+        android:id="@+id/btEmail" />
+
+</LinearLayout>
