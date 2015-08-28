@@ -2,6 +2,7 @@ package iesb.justapharma.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import iesb.justapharma.R;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;

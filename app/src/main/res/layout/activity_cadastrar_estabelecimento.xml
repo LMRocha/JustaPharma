@@ -29,6 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtEndereco"
+            android:clickable="true"
+            android:onClick="rastrearEndereco"
             android:layout_column="0"
             android:hint="Endereço" />
 
