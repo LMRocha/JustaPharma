@@ -24,15 +24,24 @@
             android:layout_column="0"
             android:hint="CNPJ" />
 
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtEndereco"
             android:clickable="true"
-            android:onClick="rastrearEndereco"
             android:layout_column="0"
-            android:hint="Endereço" />
+            android:hint="Endereço"
+            />
+         <Button
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Localizar"
+             android:onClick="rastrearEndereco"/>
+        </LinearLayout>
 
     <ImageButton
         android:layout_width="50dp"

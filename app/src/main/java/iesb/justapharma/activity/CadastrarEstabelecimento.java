@@ -30,6 +30,17 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
         endereco = (TextView) findViewById(R.id.txtEndereco);
         imgDentroMargem = (ImageView) findViewById(R.id.imgDentroMargem);
 
+        Intent intent = getIntent();
+        if(intent != null && (intent.getExtras() != null)){
+
+            Bundle extras = intent.getExtras();
+
+            if((extras.getString("INTENT_MAPS").equals("FROM_MAPS_ACTIVITY"))){
+
+                this.endereco.setText(extras.getString("ENDERECO_RASTREADO"));
+            }
+        }
+
     }
 
     public void salvarEstabelecimento(View v){
