@@ -1,11 +1,19 @@
 package iesb.justapharma.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -19,7 +27,7 @@ import iesb.justapharma.R;
 import iesb.justapharma.domain.Estabelecimento;
 import iesb.justapharma.domain.Medicamento;
 
-public class ListaEstabelecimentos extends ActionBarActivity {
+public class ListaEstabelecimentos extends Activity{
 
     List<Estabelecimento> estabelecimentos = new ArrayList<Estabelecimento>();
     ListView listVEstabelecimento;
@@ -31,6 +39,17 @@ public class ListaEstabelecimentos extends ActionBarActivity {
         setContentView(R.layout.activity_lista_estabelecimentos);
 
         listVEstabelecimento = (ListView) findViewById(R.id.listVEstabelecimento);
+        registerForContextMenu(listVEstabelecimento);
+        listVEstabelecimento.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String message = "Você selecionou o estabelecimento "+
+                        estabelecimentos.get(position).getNomeFantasia();
+                        //String.valueOf((Estabelecimento)parent.getItemAtPosition(position));
+
+                Toast.makeText(ListaEstabelecimentos.this,message,Toast.LENGTH_LONG).show();
+            }
+        });
 
         Estabelecimento estabelecimento1 = new Estabelecimento();
         estabelecimento1.setNomeFantasia("FARMA 1");
@@ -52,7 +71,34 @@ public class ListaEstabelecimentos extends ActionBarActivity {
     }
 
     public void editarEstabelecimento(View v){
-        Toast.makeText(getApplicationContext(), "Long click is ok !!!", Toast.LENGTH_LONG).show();
+
+        Toast.makeText(getApplicationContext(), "Edit item is ok !!!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actions_lista_estabelecimento,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId()){
+
+            case R.id.itemDelete:
+                Toast.makeText(ListaEstabelecimentos.this,"Deletar Item",Toast.LENGTH_SHORT).show();
+            case R.id.itemEditar:
+                Toast.makeText(ListaEstabelecimentos.this,"Editar Item",Toast.LENGTH_SHORT).show();
+        }
+
+
+        return super.onContextItemSelected(item);
+
+
     }
 
     @Override
@@ -76,6 +122,7 @@ public class ListaEstabelecimentos extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
     private class ListaEstabelecimentoAdapter extends ArrayAdapter<Estabelecimento> {

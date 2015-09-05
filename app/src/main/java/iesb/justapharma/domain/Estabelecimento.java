@@ -1,9 +1,11 @@
 package iesb.justapharma.domain;
 
+import android.widget.Adapter;
+
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
-public class Estabelecimento {
+public class Estabelecimento{
     private String nomeFantasia;
     private String CNPJ;
     private String Endereco;
