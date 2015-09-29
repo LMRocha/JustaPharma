@@ -11,11 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+
 import iesb.justapharma.R;
 import iesb.justapharma.domain.PrecoMargemEnum;
+import iesb.justapharma.service.ConsultarMedicamentoService;
 
 
 public class Detalhamento extends ActionBarActivity {
+
+    ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
 
     String PRINCIPIO_ATIVO;
     String NOME_MEDICAMENTO;
@@ -41,7 +46,13 @@ public class Detalhamento extends ActionBarActivity {
         Bundle extras = intent.getExtras();
 
         txtCodBarras.setText(extras.getString("COD_BARRAS"));
-
+        try {
+            txtCodBarras.setText(consultarMedicamentoService.
+                    consultarMedicamentoPorCodBarras
+                            (extras.getString("COD_BARRAS")).getCodigoBarras());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Implementa��o do icone para o campo Pre�o dentro da Margem
         if(extras.get("PRECO_MARGEM").equals(PrecoMargemEnum.FORA_MEDIA)){

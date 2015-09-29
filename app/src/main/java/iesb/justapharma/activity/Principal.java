@@ -9,14 +9,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.PushService;
+
 import iesb.justapharma.R;
 import iesb.justapharma.domain.Medicamento;
 import iesb.justapharma.domain.PrecoMargemEnum;
+import iesb.justapharma.service.ConsultarMedicamentoService;
 import iesb.justapharma.utils.IntentIntegrator;
 import iesb.justapharma.utils.IntentResult;
 
 
 public class Principal extends Activity {
+
+    ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
+
     EditText numCodBarras;
     EditText numPrecoAtual;
     ImageButton btConsultar;
@@ -25,6 +34,12 @@ public class Principal extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
+
+        /*ParseObject parseObject = new ParseObject("Teste");
+        parseObject.put("test_id",123);
+        parseObject.put("test_name","Parse Testing!!!");
+        parseObject.saveInBackground();*/
+
 
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);

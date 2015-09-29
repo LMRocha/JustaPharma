@@ -4,18 +4,18 @@ package iesb.justapharma.domain;
  * Created by SAMSUNG on 11/08/2015.
  */
 public class Medicamento {
-    private int codigoBarras;
+    private String codigoBarras;
     private double preco;
     private String principioAtivo;
     private String nomeMedicamento;
     private PrecoMargemEnum precoMargem;
     private SuspensaoMedicamentoEnum suspensao;
 
-    public int getCodigoBarras() {
+    public String getCodigoBarras() {
         return codigoBarras;
     }
 
-    public void setCodigoBarras(int codigoBarras) {
+    public void setCodigoBarras(String codigoBarras) {
         this.codigoBarras = codigoBarras;
     }
 
