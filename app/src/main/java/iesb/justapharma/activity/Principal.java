@@ -35,12 +35,6 @@ public class Principal extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        /*ParseObject parseObject = new ParseObject("Teste");
-        parseObject.put("test_id",123);
-        parseObject.put("test_name","Parse Testing!!!");
-        parseObject.saveInBackground();*/
-
-
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);
         btConsultar = (ImageButton) findViewById(R.id.btConsultar);

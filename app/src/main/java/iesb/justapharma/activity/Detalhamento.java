@@ -11,9 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 
 import iesb.justapharma.R;
+import iesb.justapharma.domain.Medicamento;
 import iesb.justapharma.domain.PrecoMargemEnum;
 import iesb.justapharma.service.ConsultarMedicamentoService;
 
@@ -21,6 +24,7 @@ import iesb.justapharma.service.ConsultarMedicamentoService;
 public class Detalhamento extends ActionBarActivity {
 
     ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
+    int i = 0;
 
     String PRINCIPIO_ATIVO;
     String NOME_MEDICAMENTO;
@@ -36,6 +40,11 @@ public class Detalhamento extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhamento);
 
+        if(i==0){
+            ParseObject.registerSubclass(Medicamento.class);
+            Parse.initialize(this, "iH9pUoflZiwuMnrPWOHkg0GYCa9OQ4zviMcdTMuV", "wPqzasyybYrdogqqIRRg5ZRef7zAiCqhDe8phZ82");
+        }
+
         txtPrincipioAtivo = (TextView) findViewById(R.id.txtPrincipioAtivo);
         txtNomeMedicamento = (TextView) findViewById(R.id.txtNomeMed);
         txtCodBarras = (TextView) findViewById(R.id.txtCodBarras);
@@ -46,13 +55,6 @@ public class Detalhamento extends ActionBarActivity {
         Bundle extras = intent.getExtras();
 
         txtCodBarras.setText(extras.getString("COD_BARRAS"));
-        try {
-            txtCodBarras.setText(consultarMedicamentoService.
-                    consultarMedicamentoPorCodBarras
-                            (extras.getString("COD_BARRAS")).getCodigoBarras());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         // Implementa��o do icone para o campo Pre�o dentro da Margem
         if(extras.get("PRECO_MARGEM").equals(PrecoMargemEnum.FORA_MEDIA)){
@@ -60,6 +62,8 @@ public class Detalhamento extends ActionBarActivity {
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
         }
+
+        i++;
     }
 
     public void cadastrarEstabelecimento(View view){
