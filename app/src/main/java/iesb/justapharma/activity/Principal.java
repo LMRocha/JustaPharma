@@ -3,6 +3,7 @@ package iesb.justapharma.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.PushService;
@@ -24,7 +26,8 @@ import iesb.justapharma.utils.IntentResult;
 
 public class Principal extends Activity {
 
-    ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
+   ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
+    static int aux = 0;
 
     EditText numCodBarras;
     EditText numPrecoAtual;
@@ -35,15 +38,19 @@ public class Principal extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        /*ParseObject parseObject = new ParseObject("Teste");
-        parseObject.put("test_id",123);
-        parseObject.put("test_name","Parse Testing!!!");
-        parseObject.saveInBackground();*/
+        if(aux == 0) {
+            Parse.initialize(this, getString(R.string.param1), getString(R.string.param2));
+            ParseObject.registerSubclass(Medicamento.class);
+            //ParseObject.registerSubclass(Medicamento.class);
+        }
+
+        aux++;
 
 
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);
         btConsultar = (ImageButton) findViewById(R.id.btConsultar);
+        System.out.println("AUX: "+aux);
     }
 
     @Override
@@ -61,15 +68,18 @@ public class Principal extends Activity {
 
     }
 
-    public void consultarCodigoBarras(String codBarra){
-        Medicamento medicamento = new Medicamento();
-        medicamento.setPreco(100.0);
+    public void consultarCodigoBarras(String codBarra) throws ParseException {
+        Medicamento medicamento;
+        //medicamento.setPreco(100.0);
+
+       medicamento = consultarMedicamentoService.consultarMedicamentoPorCodBarras(codBarra);
 
         if(Double.parseDouble(numPrecoAtual.getText().toString()) > medicamento.getPreco()){
             medicamento.setPrecoMargem(PrecoMargemEnum.FORA_MEDIA);
         }else{
             medicamento.setPrecoMargem(PrecoMargemEnum.DENTRO_MEDIA);
         }
+
 
         Intent intent = new Intent(this, Detalhamento.class);
         intent.putExtra("COD_BARRAS",codBarra);
@@ -89,7 +99,11 @@ public class Principal extends Activity {
             String barcode;
             barcode = scanResult.getContents();
             numCodBarras.setText(barcode);
-            consultarCodigoBarras(barcode);
+            try {
+                consultarCodigoBarras(barcode);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

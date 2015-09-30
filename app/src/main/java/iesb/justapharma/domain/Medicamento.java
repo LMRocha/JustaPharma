@@ -1,9 +1,13 @@
 package iesb.justapharma.domain;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
-public class Medicamento {
+@ParseClassName("medicamentos")
+public class Medicamento extends ParseObject{
     private String codigoBarras;
     private double preco;
     private String principioAtivo;
@@ -12,35 +16,35 @@ public class Medicamento {
     private SuspensaoMedicamentoEnum suspensao;
 
     public String getCodigoBarras() {
-        return codigoBarras;
+        return getString("EAN");
     }
 
     public void setCodigoBarras(String codigoBarras) {
-        this.codigoBarras = codigoBarras;
+        put("EAN", codigoBarras);
     }
 
     public double getPreco() {
-        return preco;
+        return (Double) getNumber("PMC_19");
     }
 
     public void setPreco(double preco) {
-        this.preco = preco;
+        put("PMC_19",preco);
     }
 
     public String getPrincipioAtivo() {
-        return principioAtivo;
+        return getString("PRINCIPIO_ATIVO");
     }
 
     public void setPrincipioAtivo(String principioAtivo) {
-        this.principioAtivo = principioAtivo;
+        put("PRINCIPIO_ATIVO",principioAtivo);
     }
 
     public String getNomeMedicamento() {
-        return nomeMedicamento;
+        return getString("PRODUTO");
     }
 
     public void setNomeMedicamento(String nomeMedicamento) {
-        this.nomeMedicamento = nomeMedicamento;
+        put("PRODUTO",nomeMedicamento);
     }
 
     public PrecoMargemEnum getPrecoMargem() {

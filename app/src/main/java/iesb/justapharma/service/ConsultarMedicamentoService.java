@@ -17,14 +17,13 @@ import iesb.justapharma.domain.Medicamento;
 public class ConsultarMedicamentoService {
 
     private ConsultarMedicamentoDAO consultarMedicamentoDAO = new ConsultarMedicamentoDAO();
-    private Medicamento medicamento = new Medicamento();
+    //private Medicamento medicamento = new Medicamento();
 
     public Medicamento consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
 
-        medicamento.setCodigoBarras(consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras).getString("EAN"));
+        consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras);
 
-
-        return new Medicamento();
+        return null;
     }
 
     public List<Medicamento> consultarMedicamentoPorFiltro(FiltroMedicamento filtro){

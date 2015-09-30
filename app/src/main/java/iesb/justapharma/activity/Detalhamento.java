@@ -46,13 +46,6 @@ public class Detalhamento extends ActionBarActivity {
         Bundle extras = intent.getExtras();
 
         txtCodBarras.setText(extras.getString("COD_BARRAS"));
-        try {
-            txtCodBarras.setText(consultarMedicamentoService.
-                    consultarMedicamentoPorCodBarras
-                            (extras.getString("COD_BARRAS")).getCodigoBarras());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         // Implementa��o do icone para o campo Pre�o dentro da Margem
         if(extras.get("PRECO_MARGEM").equals(PrecoMargemEnum.FORA_MEDIA)){
