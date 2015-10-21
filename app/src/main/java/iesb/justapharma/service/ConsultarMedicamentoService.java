@@ -21,9 +21,9 @@ public class ConsultarMedicamentoService {
 
     public Medicamento consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
 
-        consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras);
 
-        return null;
+
+        return consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras).get(0);
     }
 
     public List<Medicamento> consultarMedicamentoPorFiltro(FiltroMedicamento filtro){

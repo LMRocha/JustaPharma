@@ -21,32 +21,34 @@ import iesb.justapharma.domain.Medicamento;
  */
 public class ConsultarMedicamentoDAO {
 
-    private Medicamento result;
+    //private Medicamento result;
+    private List<Medicamento> results = new ArrayList<Medicamento>();
+    public List<Medicamento> consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
 
-    public Medicamento consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
-
-        ParseObject.registerSubclass(Medicamento.class);
-        result = new Medicamento();
-
-        ParseQuery<Medicamento> query = ParseQuery.getQuery("medicamentos");
+        ParseQuery<Medicamento> query = new ParseQuery<Medicamento>("medicamentos");
         query.selectKeys(Arrays.asList("EAN", "PRINCIPIO_ATIVO", "PRODUTO", "PMC_19"));
         query.whereEqualTo("EAN", codBarras);
-        query.getFirstInBackground(new GetCallback<Medicamento>() {
+        query.findInBackground(new FindCallback<Medicamento>() {
             @Override
-            public void done(Medicamento parseObject, ParseException e) {
+            public void done(List<Medicamento> list, ParseException e) {
+                if(list.size() != 0 && list != null){
 
-                if (parseObject == null) {
+                    for (Medicamento med: list) {
+                        Medicamento medicamento = new Medicamento();
+                        medicamento.setCodigoBarras(med.getCodigoBarras());
+                        medicamento.setPreco(med.getPreco());
+                        medicamento.setNomeMedicamento(med.getNomeMedicamento());
+                        medicamento.setPrincipioAtivo(med.getPrincipioAtivo());
+                        results.add(medicamento);
+                    }
 
-
-                } else {
-
-                    result = parseObject;
-
+                }else{
+                    System.out.println("LISTA VAZIA!!");
                 }
             }
         });
 
-        return result;
+        return results;
 
     }
 

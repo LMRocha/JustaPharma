@@ -10,11 +10,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.PushService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import iesb.justapharma.R;
 import iesb.justapharma.domain.Medicamento;
@@ -29,6 +35,8 @@ public class Principal extends Activity {
    ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
     static int aux = 0;
 
+    List<Medicamento> results = new ArrayList<Medicamento>();
+
     EditText numCodBarras;
     EditText numPrecoAtual;
     ImageButton btConsultar;
@@ -39,12 +47,35 @@ public class Principal extends Activity {
         setContentView(R.layout.activity_principal);
 
         if(aux == 0) {
-            Parse.initialize(this, getString(R.string.param1), getString(R.string.param2));
             ParseObject.registerSubclass(Medicamento.class);
-            //ParseObject.registerSubclass(Medicamento.class);
+            Parse.initialize(this, getString(R.string.param1), getString(R.string.param2));
         }
 
         aux++;
+
+        ParseQuery<Medicamento> query = new ParseQuery<Medicamento>("medicamentos");
+        query.selectKeys(Arrays.asList("EAN", "PRINCIPIO_ATIVO", "PRODUTO", "PMC_19"));
+        query.whereEqualTo("EAN", "7896015516604");
+        query.findInBackground(new FindCallback<Medicamento>() {
+            @Override
+            public void done(List<Medicamento> list, ParseException e) {
+                if(list.size() != 0 && list != null){
+
+                    for (Medicamento med: list) {
+                        Medicamento medicamento = new Medicamento();
+                        medicamento.setCodigoBarras(med.getCodigoBarras());
+                        medicamento.setPreco(med.getPreco());
+                        medicamento.setNomeMedicamento(med.getNomeMedicamento());
+                        medicamento.setPrincipioAtivo(med.getPrincipioAtivo());
+                        results.add(medicamento);
+                    }
+
+                }else{
+                    System.out.println("LISTA VAZIA!!");
+                }
+            }
+        });
+
 
 
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
