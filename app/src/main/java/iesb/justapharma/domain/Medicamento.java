@@ -20,11 +20,11 @@ public class Medicamento extends ParseObject{
     }
 
     public void setCodigoBarras(String codigoBarras) {
-        put("EAN",codigoBarras);
+        put("EAN", codigoBarras);
     }
 
     public double getPreco() {
-        return getDouble("PMC_19");
+        return (Double) getNumber("PMC_19");
     }
 
     public void setPreco(double preco) {

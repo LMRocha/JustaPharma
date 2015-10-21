@@ -21,35 +21,33 @@ import iesb.justapharma.domain.Medicamento;
  */
 public class ConsultarMedicamentoDAO {
 
-    public ParseObject consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
-        final ParseObject result = new ParseObject("medicamentos");
+    private Medicamento result;
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("medicamentos");
+    public Medicamento consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
+
+        ParseObject.registerSubclass(Medicamento.class);
+        result = new Medicamento();
+
+        ParseQuery<Medicamento> query = ParseQuery.getQuery("medicamentos");
         query.selectKeys(Arrays.asList("EAN", "PRINCIPIO_ATIVO", "PRODUTO", "PMC_19"));
         query.whereEqualTo("EAN", codBarras);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        query.getFirstInBackground(new GetCallback<Medicamento>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(Medicamento parseObject, ParseException e) {
 
                 if (parseObject == null) {
 
-                    Log.d("EAN", "Retrieving failed");
-                    Log.d("PRINCIPIO_ATIVO", "Retrieving failed");
-                    Log.d("PRODUTO", "Retrieving failed");
-                    Log.d("PMC_19", "Retrieving failed");
 
                 } else {
 
-                    Log.d("EAN", "Retrieved");
-                    Log.d("PRINCIPIO_ATIVO", "Retrieved");
-                    Log.d("PRODUTO", "Retrieved");
-                    Log.d("PMC_19", "Retrieved");
+                    result = parseObject;
 
                 }
             }
         });
 
-        return (ParseObject) query.getFirst();
+        return result;
+
     }
 
 
