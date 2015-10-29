@@ -1,63 +1,151 @@
 package iesb.justapharma.dao;
 
-import android.util.Log;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import iesb.justapharma.activity.FiltroMedicamento;
 import iesb.justapharma.domain.Medicamento;
 
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
-public class ConsultarMedicamentoDAO {
+public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
 
-    //private Medicamento result;
-    private List<Medicamento> results = new ArrayList<Medicamento>();
-    public List<Medicamento> consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "JUSTAPHARMA",
+            TABLE_MEDICAMENTOS = "medicamentos",
+            KEY_ID = "id",
+            KEY_PRINCIPIO_ATIVO = "principio_ativo",
+            KEY_LABORATORIO = "laboratorio",
+            KEY_EAN = "ean",
+            KEY_PRODUTO = "produto",
+            KEY_APRESENTACAO ="apresentacao",
+            KEY_CLASSE_TERAPEUTICA = "classe_terapeutica",
+            KEY_PF_0 = "pf_0",
+            KEY_PF_12 = "pf_0",
+            KEY_PF_17 = "pf_0",
+            KEY_PF_18 = "pf_0",
+            KEY_PF_19 = "pf_0",
+            KEY_PF_17_ZONA = "pf_17_zona",
+            KEY_PMC_0 = "pmc_0",
+            KEY_PMC_12 = "pmc_12",
+            KEY_PMC_17 = "pmc_17",
+            KEY_PMC_18 = "pmc_18",
+            KEY_PMC_19 = "pmc_19",
+            KEY_PMC_17_ZONA = "pmc_17_zona";
 
-        ParseQuery<Medicamento> query = new ParseQuery<Medicamento>("medicamentos");
-        query.selectKeys(Arrays.asList("EAN", "PRINCIPIO_ATIVO", "PRODUTO", "PMC_19"));
-        query.whereEqualTo("EAN", codBarras);
-        query.findInBackground(new FindCallback<Medicamento>() {
-            @Override
-            public void done(List<Medicamento> list, ParseException e) {
-                if(list.size() != 0 && list != null){
 
-                    for (Medicamento med: list) {
-                        Medicamento medicamento = new Medicamento();
-                        medicamento.setCodigoBarras(med.getCodigoBarras());
-                        medicamento.setPreco(med.getPreco());
-                        medicamento.setNomeMedicamento(med.getNomeMedicamento());
-                        medicamento.setPrincipioAtivo(med.getPrincipioAtivo());
-                        results.add(medicamento);
-                    }
+    public ConsultarMedicamentoDAO(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-                }else{
-                    System.out.println("LISTA VAZIA!!");
-                }
-            }
-        });
+    @Override
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE "
+                + TABLE_MEDICAMENTOS
+                + "("
+                + KEY_PRINCIPIO_ATIVO
+                + " TEXT,"
+                + KEY_LABORATORIO
+                + " TEXT,"
+                + KEY_EAN
+                + " TEXT,"
+                + KEY_APRESENTACAO
+                + " TEXT,"
+                + KEY_CLASSE_TERAPEUTICA
+                + " TEXT,"
+                + KEY_PMC_19
+                + " REAL)");
+    }
 
-        return results;
-
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " +TABLE_MEDICAMENTOS);
+        onCreate(db);
     }
 
 
-    public List<Medicamento> consultarMedicamentoPorFiltro(FiltroMedicamento filtro){
+    public Medicamento consultarMedicamentoPorCodBarras(String codBarras, Context context){
 
-        List<Medicamento> medicamentos = new ArrayList<Medicamento>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            String t = this.getDatabaseName();
+        }
+        Medicamento medicamento = new Medicamento();
+        //onCreate(db);
 
-        return medicamentos;
+        Cursor cursor = db.query(TABLE_MEDICAMENTOS, new String[]{
+                KEY_PRINCIPIO_ATIVO,
+                KEY_EAN,
+                KEY_APRESENTACAO,
+                KEY_CLASSE_TERAPEUTICA,
+                KEY_PMC_19 }, KEY_EAN+"=?", new String[]{codBarras},null,null,null,null);
+
+
+        if(cursor != null){
+            medicamento.setPrincipioAtivo(cursor.getString(0));
+            medicamento.setCodigoBarras(cursor.getString(1));
+            medicamento.setNomeMedicamento(cursor.getString(2));
+            medicamento.setClasseTerapeutica(cursor.getString(3));
+            medicamento.setPreco(Double.parseDouble(cursor.getString(4)));
+        }
+
+        return medicamento;
+    }
+
+
+    private void importCSVfile(String fileaName){
+        String[] FILE_HEADER_MAPPING = {"principioAtivo","ean","apresentacao","classe_terapeutica","pmc19"};
+
+        String PRINCIPIO_ATIVO = "principioAtivo";
+        String EAN = "ean";
+        String APRESENTACAO = "apresentacao";
+        String CLASSE_TERAPEUTICA = "classe_terapeutica";
+        String PMC19 = "pmc19";
+
+        FileReader fileReader;
+        CSVParser csvParser;
+        CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(',');
+
+
+        try {
+            List<Medicamento> medicamentos = new ArrayList<Medicamento>();
+            fileReader = new FileReader(fileaName);
+            csvParser = new CSVParser(fileReader, csvFormat);
+
+            List<CSVRecord> records = csvParser.getRecords();
+
+            for (CSVRecord record : records) {
+                Medicamento medicamento = new Medicamento(
+                        Double.parseDouble(record.get(PMC19)),
+                        String.valueOf(PRINCIPIO_ATIVO),
+                        String.valueOf(EAN),
+                        String.valueOf(APRESENTACAO),
+                        String.valueOf(CLASSE_TERAPEUTICA));
+
+                        medicamentos.add(medicamento);
+            }
+
+
+        }catch (Exception e){
+
+        }
+
     }
 
 }

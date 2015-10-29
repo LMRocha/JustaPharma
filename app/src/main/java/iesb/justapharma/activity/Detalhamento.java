@@ -41,14 +41,12 @@ public class Detalhamento extends ActionBarActivity {
         setContentView(R.layout.activity_detalhamento);
 
         if(i==0){
-            ParseObject.registerSubclass(Medicamento.class);
             Parse.initialize(this, "iH9pUoflZiwuMnrPWOHkg0GYCa9OQ4zviMcdTMuV", "wPqzasyybYrdogqqIRRg5ZRef7zAiCqhDe8phZ82");
         }
 
         txtPrincipioAtivo = (TextView) findViewById(R.id.txtPrincipioAtivo);
         txtNomeMedicamento = (TextView) findViewById(R.id.txtNomeMed);
         txtCodBarras = (TextView) findViewById(R.id.txtCodBarras);
-        txtStatus = (TextView) findViewById(R.id.txtStatus);
         imgDentroMargem = (ImageView) findViewById(R.id.imgDentroMargem);
 
         Intent intent = getIntent();

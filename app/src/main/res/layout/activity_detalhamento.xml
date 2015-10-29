@@ -13,29 +13,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Cod Barras"
+        android:text="777655445544"
+        android:gravity="center_horizontal"
         android:id="@+id/txtCodBarras" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Principio Ativo"
+        android:text="Bupropiona"
+        android:gravity="center_horizontal"
         android:id="@+id/txtPrincipioAtivo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Nome Medicamento"
+        android:text="Wellbutrin"
+        android:gravity="center_horizontal"
         android:id="@+id/txtNomeMed" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Status de Suspensao"
-        android:id="@+id/txtStatus" />
 
     <ImageView
         android:layout_width="100dp"
@@ -48,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Mensagem Preço"
+        android:text="Você está pagando mais caro, preço acima do permitido pela legislação"
         android:layout_gravity="center_horizontal"
         android:id="@+id/txtMensagemPreco" />
 

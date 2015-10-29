@@ -1,8 +1,8 @@
 package iesb.justapharma.service;
 
+import android.content.Context;
+
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,11 @@ import iesb.justapharma.domain.Medicamento;
  */
 public class ConsultarMedicamentoService {
 
-    private ConsultarMedicamentoDAO consultarMedicamentoDAO = new ConsultarMedicamentoDAO();
-    //private Medicamento medicamento = new Medicamento();
+    private ConsultarMedicamentoDAO consultarMedicamentoDAO;
 
-    public Medicamento consultarMedicamentoPorCodBarras(String codBarras) throws ParseException {
-
-
-
-        return consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras).get(0);
+    public Medicamento consultarMedicamentoPorCodBarras(String codBarras, Context context) throws ParseException {
+        consultarMedicamentoDAO = new ConsultarMedicamentoDAO(context);
+        return consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras, context) ;
     }
 
     public List<Medicamento> consultarMedicamentoPorFiltro(FiltroMedicamento filtro){

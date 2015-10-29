@@ -33,9 +33,6 @@ import iesb.justapharma.utils.IntentResult;
 public class Principal extends Activity {
 
    ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
-    static int aux = 0;
-
-    List<Medicamento> results = new ArrayList<Medicamento>();
 
     EditText numCodBarras;
     EditText numPrecoAtual;
@@ -46,42 +43,10 @@ public class Principal extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        if(aux == 0) {
-            ParseObject.registerSubclass(Medicamento.class);
-            Parse.initialize(this, getString(R.string.param1), getString(R.string.param2));
-        }
-
-        aux++;
-
-        ParseQuery<Medicamento> query = new ParseQuery<Medicamento>("medicamentos");
-        query.selectKeys(Arrays.asList("EAN", "PRINCIPIO_ATIVO", "PRODUTO", "PMC_19"));
-        query.whereEqualTo("EAN", "7896015516604");
-        query.findInBackground(new FindCallback<Medicamento>() {
-            @Override
-            public void done(List<Medicamento> list, ParseException e) {
-                if(list.size() != 0 && list != null){
-
-                    for (Medicamento med: list) {
-                        Medicamento medicamento = new Medicamento();
-                        medicamento.setCodigoBarras(med.getCodigoBarras());
-                        medicamento.setPreco(med.getPreco());
-                        medicamento.setNomeMedicamento(med.getNomeMedicamento());
-                        medicamento.setPrincipioAtivo(med.getPrincipioAtivo());
-                        results.add(medicamento);
-                    }
-
-                }else{
-                    System.out.println("LISTA VAZIA!!");
-                }
-            }
-        });
-
-
 
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);
         btConsultar = (ImageButton) findViewById(R.id.btConsultar);
-        System.out.println("AUX: "+aux);
     }
 
     @Override
@@ -92,18 +57,17 @@ public class Principal extends Activity {
         return true;
     }
 
+    /* Funcionalidade será implementada no futuro
+
     public void consultarCompleta(View view){
 
         Intent intent = new Intent(this, ConsultaCompletaActivity.class);
         startActivity(intent);
 
-    }
+    }*/
 
     public void consultarCodigoBarras(String codBarra) throws ParseException {
-        Medicamento medicamento;
-        //medicamento.setPreco(100.0);
-
-       medicamento = consultarMedicamentoService.consultarMedicamentoPorCodBarras(codBarra);
+        Medicamento medicamento = consultarMedicamentoService.consultarMedicamentoPorCodBarras(codBarra, this);
 
         if(Double.parseDouble(numPrecoAtual.getText().toString()) > medicamento.getPreco()){
             medicamento.setPrecoMargem(PrecoMargemEnum.FORA_MEDIA);
@@ -125,11 +89,19 @@ public class Principal extends Activity {
 
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        String barcode = "7896422516754";
+        numCodBarras.setText(barcode);
 
-        if(scanResult != null){
-            String barcode;
-            barcode = scanResult.getContents();
-            numCodBarras.setText(barcode);
+         try {
+             consultarCodigoBarras(barcode);
+         } catch (ParseException e) {
+             e.printStackTrace();
+         }
+
+         if(scanResult != null){
+           // String barcode;
+            //barcode = scanResult.getContents();
+            //numCodBarras.setText(barcode);
             try {
                 consultarCodigoBarras(barcode);
             } catch (ParseException e) {

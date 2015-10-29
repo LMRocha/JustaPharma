@@ -36,33 +36,56 @@
             android:layout_column="0"
             android:hint="Endereço"
             />
-         <Button
+
+            <Button
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="Localizar"
              android:onClick="rastrearEndereco"/>
         </LinearLayout>
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/btSalvar"
-        android:background="@drawable/img_signup"
-        android:onClick="salvarEstabelecimento"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtUsrName"
+        android:clickable="true"
+        android:layout_column="0"
+        android:hint="Seu nome"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtCpf"
+        android:clickable="true"
+        android:layout_column="0"
+        android:hint="CPF"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtUsrEndereco"
+        android:clickable="true"
+        android:layout_column="0"
+        android:hint="Seu Endereço"
+        />
+
+
     <ImageButton
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:id="@+id/btListar"
         android:background="@drawable/img_lupa_consulta"
+        android:layout_gravity="center_horizontal"
         android:onClick="listarEstabelecimentos"/>
 
     <ImageButton
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/img_sentemail"
-        android:id="@+id/btEmail" />
+        android:id="@+id/btSalvar"
+        android:background="@drawable/img_signup"
+        android:layout_gravity="center_horizontal"
+        android:onClick="salvarEstabelecimento" />
 
 </LinearLayout>

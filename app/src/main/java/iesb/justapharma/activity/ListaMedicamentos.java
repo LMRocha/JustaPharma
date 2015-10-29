@@ -37,15 +37,12 @@ public class ListaMedicamentos extends ActionBarActivity {
         Medicamento med1 = new Medicamento();
         med1.setNomeMedicamento("Med 1");
         med1.setPrincipioAtivo("Ativo 1");
-        med1.setSuspensao(SuspensaoMedicamentoEnum.SUSPENSO);
         Medicamento med2 = new Medicamento();
         med2.setNomeMedicamento("Med 2");
         med2.setPrincipioAtivo("Ativo 2");
-        med2.setSuspensao(SuspensaoMedicamentoEnum.LIBERADO);
         Medicamento med3 = new Medicamento();
         med3.setNomeMedicamento("Med 3");
         med3.setPrincipioAtivo("Ativo 3");
-        med3.setSuspensao(SuspensaoMedicamentoEnum.SUSPENSO);
         medicamentos.add(med1);
         medicamentos.add(med2);
         medicamentos.add(med3);
