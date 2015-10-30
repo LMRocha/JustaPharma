@@ -47,7 +47,9 @@ public class Principal extends Activity {
         numCodBarras = (EditText) findViewById(R.id.numCodBarras);
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);
         btConsultar = (ImageButton) findViewById(R.id.btConsultar);
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

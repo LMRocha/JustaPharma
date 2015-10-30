@@ -16,16 +16,19 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import iesb.justapharma.R;
 import iesb.justapharma.domain.Medicamento;
 
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
 public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
-
+    Context context;
     private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "JUSTAPHARMA",
             TABLE_MEDICAMENTOS = "medicamentos",
@@ -52,6 +55,7 @@ public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
 
     public ConsultarMedicamentoDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -109,7 +113,7 @@ public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
     }
 
 
-    private void importCSVfile(String fileaName){
+    public void importCSVfile(String fileaName){
         String[] FILE_HEADER_MAPPING = {"principioAtivo","ean","apresentacao","classe_terapeutica","pmc19"};
 
         String PRINCIPIO_ATIVO = "principioAtivo";
@@ -118,25 +122,29 @@ public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
         String CLASSE_TERAPEUTICA = "classe_terapeutica";
         String PMC19 = "pmc19";
 
-        FileReader fileReader;
+        BufferedReader fileReader;
         CSVParser csvParser;
+        InputStream iStream;
         CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(',');
 
 
         try {
             List<Medicamento> medicamentos = new ArrayList<Medicamento>();
-            fileReader = new FileReader(fileaName);
+            iStream = context.getResources().openRawResource(R.raw.xls_conformidade_2015_07_20_refactored1);
+            fileReader = new BufferedReader(new InputStreamReader(iStream));
             csvParser = new CSVParser(fileReader, csvFormat);
 
-            List<CSVRecord> records = csvParser.getRecords();
+            List<CSVRecord> records = new ArrayList<CSVRecord>();
+            records.addAll(csvParser.getRecords());
 
-            for (CSVRecord record : records) {
+            for (CSVRecord record: records) {
+                CSVRecord record1 = record;
                 Medicamento medicamento = new Medicamento(
-                        Double.parseDouble(record.get(PMC19)),
-                        String.valueOf(PRINCIPIO_ATIVO),
-                        String.valueOf(EAN),
-                        String.valueOf(APRESENTACAO),
-                        String.valueOf(CLASSE_TERAPEUTICA));
+                        Double.parseDouble(record1.get(PMC19)),
+                        String.valueOf(record1.get(PRINCIPIO_ATIVO)),
+                        String.valueOf(record1.get(EAN)),
+                        String.valueOf(record1.get(APRESENTACAO)),
+                        String.valueOf(record1.get(CLASSE_TERAPEUTICA)));
 
                         medicamentos.add(medicamento);
             }
