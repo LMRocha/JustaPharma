@@ -30,6 +30,7 @@ import iesb.justapharma.domain.Medicamento;
 public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
     Context context;
     private static final int DATABASE_VERSION = 2;
+    CSVRecord record;
     private static final String DATABASE_NAME = "JUSTAPHARMA",
             TABLE_MEDICAMENTOS = "medicamentos",
             KEY_ID = "id",
@@ -125,26 +126,28 @@ public class ConsultarMedicamentoDAO extends SQLiteOpenHelper {
         BufferedReader fileReader;
         CSVParser csvParser;
         InputStream iStream;
-        CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(',');
+        //CSVFormat csvFormat = CSVFormat.DEFAULT.withDelimiter(',');
+        CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader(FILE_HEADER_MAPPING);
 
 
         try {
             List<Medicamento> medicamentos = new ArrayList<Medicamento>();
+            List<CSVRecord> records = new ArrayList<CSVRecord>();
             iStream = context.getResources().openRawResource(R.raw.xls_conformidade_2015_07_20_refactored1);
             fileReader = new BufferedReader(new InputStreamReader(iStream));
             csvParser = new CSVParser(fileReader, csvFormat);
-
-            List<CSVRecord> records = new ArrayList<CSVRecord>();
             records.addAll(csvParser.getRecords());
 
+
+
             for (CSVRecord record: records) {
-                CSVRecord record1 = record;
+                this.record = record;
                 Medicamento medicamento = new Medicamento(
-                        Double.parseDouble(record1.get(PMC19)),
-                        String.valueOf(record1.get(PRINCIPIO_ATIVO)),
-                        String.valueOf(record1.get(EAN)),
-                        String.valueOf(record1.get(APRESENTACAO)),
-                        String.valueOf(record1.get(CLASSE_TERAPEUTICA)));
+                        Double.parseDouble(this.record.get(PMC19)),
+                        String.valueOf(this.record.get(PRINCIPIO_ATIVO)),
+                        String.valueOf(this.record.get(EAN)),
+                        String.valueOf(this.record.get(APRESENTACAO)),
+                        String.valueOf(this.record.get(CLASSE_TERAPEUTICA)));
 
                         medicamentos.add(medicamento);
             }
