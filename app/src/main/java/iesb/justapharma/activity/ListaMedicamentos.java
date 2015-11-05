@@ -34,6 +34,7 @@ public class ListaMedicamentos extends ActionBarActivity {
 
         lstMedicamentos = (ListView) findViewById(R.id.lstMedicamentos);
         //Apenas para teste
+/*
         Medicamento med1 = new Medicamento();
         med1.setNomeMedicamento("Med 1");
         med1.setPrincipioAtivo("Ativo 1");
@@ -46,6 +47,7 @@ public class ListaMedicamentos extends ActionBarActivity {
         medicamentos.add(med1);
         medicamentos.add(med2);
         medicamentos.add(med3);
+*/
 
         montarListaMedicamento();
     }
@@ -94,7 +96,7 @@ public class ListaMedicamentos extends ActionBarActivity {
             TextView nomeMedicamento = (TextView) view.findViewById(R.id.txtNomeMed);
             TextView principioAtivo = (TextView) view.findViewById(R.id.txtPrincipioAtivo);
 
-            nomeMedicamento.setText(currentMedicamento.getNomeMedicamento());
+            //nomeMedicamento.setText(currentMedicamento.getNomeMedicamento());
             principioAtivo.setText(currentMedicamento.getPrincipioAtivo());
 
             return view;

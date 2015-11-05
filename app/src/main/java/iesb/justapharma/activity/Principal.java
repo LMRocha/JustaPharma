@@ -48,6 +48,7 @@ public class Principal extends Activity {
         numPrecoAtual = (EditText) findViewById(R.id.numPrecoAtual);
         btConsultar = (ImageButton) findViewById(R.id.btConsultar);
 
+        //consultarMedicamentoService.openDataBase(this);
     }
 
 
@@ -68,19 +69,17 @@ public class Principal extends Activity {
 
     }*/
 
-    public void consultarCodigoBarras(String codBarra) throws ParseException {
-        Medicamento medicamento = consultarMedicamentoService.consultarMedicamentoPorCodBarras(codBarra, this);
-
-        if(Double.parseDouble(numPrecoAtual.getText().toString()) > medicamento.getPreco()){
-            medicamento.setPrecoMargem(PrecoMargemEnum.FORA_MEDIA);
-        }else{
-            medicamento.setPrecoMargem(PrecoMargemEnum.DENTRO_MEDIA);
-        }
+    public void consultarCodigoBarras(String codBarra, Double preco) throws ParseException {
+        Medicamento medicamento = consultarMedicamentoService.consultarMedicamentoPorCodBarras(codBarra, preco);
 
 
         Intent intent = new Intent(this, Detalhamento.class);
-        intent.putExtra("COD_BARRAS",codBarra);
+        intent.putExtra("COD_BARRAS",medicamento.getEan());
         intent.putExtra("PRECO_MARGEM",medicamento.getPrecoMargem());
+        intent.putExtra("PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
+        intent.putExtra("PRODUTO",medicamento.getProduto());
+        intent.putExtra("EXCEDENTE",medicamento.getValorExcedente());
+        intent.putExtra("ID","principal");
         startActivity(intent);
     }
 
@@ -92,20 +91,20 @@ public class Principal extends Activity {
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String barcode = "7896422516754";
-        numCodBarras.setText(barcode);
+        //numCodBarras.setText(barcode);
 
-         try {
-             consultarCodigoBarras(barcode);
+         /*try {
+             consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
          } catch (ParseException e) {
              e.printStackTrace();
-         }
+         }*/
 
          if(scanResult != null){
            // String barcode;
             //barcode = scanResult.getContents();
             //numCodBarras.setText(barcode);
             try {
-                consultarCodigoBarras(barcode);
+                consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -34,34 +34,35 @@ public class Detalhamento extends ActionBarActivity {
     TextView txtNomeMedicamento;
     TextView txtStatus;
     TextView txtCodBarras;
+    TextView txtMensagemPreco;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhamento);
 
-        if(i==0){
-            Parse.initialize(this, "iH9pUoflZiwuMnrPWOHkg0GYCa9OQ4zviMcdTMuV", "wPqzasyybYrdogqqIRRg5ZRef7zAiCqhDe8phZ82");
-        }
-
         txtPrincipioAtivo = (TextView) findViewById(R.id.txtPrincipioAtivo);
         txtNomeMedicamento = (TextView) findViewById(R.id.txtNomeMed);
         txtCodBarras = (TextView) findViewById(R.id.txtCodBarras);
+        txtMensagemPreco = (TextView) findViewById(R.id.txtMensagemPreco);
         imgDentroMargem = (ImageView) findViewById(R.id.imgDentroMargem);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
         txtCodBarras.setText(extras.getString("COD_BARRAS"));
+        txtPrincipioAtivo.setText(extras.getString("PRINCIPIO_ATIVO"));
+        txtNomeMedicamento.setText(extras.getString("PRODUTO"));
 
         // Implementa��o do icone para o campo Pre�o dentro da Margem
-        if(extras.get("PRECO_MARGEM").equals(PrecoMargemEnum.FORA_MEDIA)){
+        if(!Boolean.parseBoolean(extras.get("PRECO_MARGEM").toString())){
             imgDentroMargem.setImageResource(R.drawable.img_refuse);
+            txtMensagemPreco.setText("Você está pagando mais caro, o valor está "+extras.getDouble("EXCEDENTE")+
+                    " R$ acima do permitido pela legislação!!");
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
+            txtMensagemPreco.setText("Tudo certo, o preço está dentro do estipulado!!");
         }
-
-        i++;
     }
 
     public void cadastrarEstabelecimento(View view){

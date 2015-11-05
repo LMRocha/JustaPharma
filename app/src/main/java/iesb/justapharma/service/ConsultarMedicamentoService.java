@@ -16,19 +16,36 @@ import iesb.justapharma.domain.Medicamento;
  */
 public class ConsultarMedicamentoService {
 
-    private ConsultarMedicamentoDAO consultarMedicamentoDAO;
-    private String filePath = "C:/Users/SAMSUNG/AndroidStudioProjects/JustaPharma/app/src/main/java/iesb/justapharmam/service/xls_conformidade_2015_07_20_refactored1.csv";
-    public Medicamento consultarMedicamentoPorCodBarras(String codBarras, Context context) throws ParseException {
-        consultarMedicamentoDAO = new ConsultarMedicamentoDAO(context);
-        consultarMedicamentoDAO.importCSVfile(filePath);
-        return consultarMedicamentoDAO.consultarMedicamentoPorCodBarras(codBarras, context) ;
+    private ConsultarMedicamentoDAO consultarMedicamentoDAO = new ConsultarMedicamentoDAO();
+    public Medicamento consultarMedicamentoPorCodBarras(String codBarras, Double preco) throws ParseException {
+
+        Medicamento medicamento = consultarMedicamentoDAO.consultarMedicamento(codBarras);
+        medicamento.setPrecoMargem(isPrecoAceitavel(medicamento.getPMC(), preco));
+
+        if(!medicamento.getPrecoMargem()){
+            medicamento.setValorExcedente(calculaExcedente(medicamento.getPMC(),preco));
+        }
+
+        return medicamento ;
     }
 
-    public List<Medicamento> consultarMedicamentoPorFiltro(FiltroMedicamento filtro){
 
-        List<Medicamento> medicamentos = new ArrayList<Medicamento>();
+    private Boolean isPrecoAceitavel(Double pmc, Double preco) {
+        Boolean flag;
 
-        return medicamentos;
+        if (preco > pmc) {
+            flag = false;
+        }else{
+            flag = true;
+        }
+
+        return flag;
     }
 
+
+    private Double calculaExcedente(Double pmc, Double preco){
+
+        return preco - pmc;
+    }
 }
+

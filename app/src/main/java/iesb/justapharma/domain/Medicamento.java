@@ -7,18 +7,21 @@ import com.parse.ParseObject;
  * Created by SAMSUNG on 11/08/2015.
  */
 @ParseClassName("medicamentos")
-public class Medicamento{
+public class Medicamento extends ParseObject{
+/*
     private double preco;
     private String codigoBarras;
     private String principioAtivo;
     private String nomeMedicamento;
-    private String classeTerapeutica;
-    private PrecoMargemEnum precoMargem;
+    private String classeTerapeutica;*/
+    private Boolean precoMargem;
+    private Double valorExcedente;
 
     public Medicamento(){
-
+        super("medicamentos");
     }
 
+/*
     public Medicamento(double preco,
                        String principioAtivo,
                        String codigoBarras,
@@ -96,4 +99,75 @@ public class Medicamento{
     public void setPrecoMargem(PrecoMargemEnum precoMargem) {
         this.precoMargem = precoMargem;
     }
+*/
+
+    public Boolean getPrecoMargem() {
+        return precoMargem;
+    }
+
+    public void setPrecoMargem(Boolean precoMargem) {
+        this.precoMargem = precoMargem;
+    }
+
+    public Double getValorExcedente() {
+        return valorExcedente;
+    }
+
+    public void setValorExcedente(Double valorExcedente) {
+        this.valorExcedente = valorExcedente;
+    }
+
+
+    // Colunas banco de dados Parse
+
+    public String getPrincipioAtivo(){
+
+        return getString("PRINCIPIO_ATIVO");
+    }
+
+    public void setPrincipioAtivo(String principioAtivo){
+
+        put("PRINCIPIO_ATIVO",principioAtivo);
+    }
+
+    public String getEan(){
+
+        return getString("EAN");
+    }
+
+    public void setEan(String ean){
+
+        put("EAN",ean);
+    }
+
+    public String getProduto(){
+
+        return getString("PRODUTO");
+    }
+
+    public void setProduto(String produto){
+
+        put("PRODUTO",produto);
+    }
+
+    public String getClasse(){
+
+        return getString("CLASSE_TERAPEUTICA");
+    }
+
+    public void setClasse(String classe){
+
+        put("CLASSE_TERAPEUTICA",classe);
+    }
+
+    public Double getPMC(){
+
+        return getDouble("PMC_19");
+    }
+
+    public void setPMC(Double pmc){
+
+        put("PMC_19",pmc);
+    }
+
 }
