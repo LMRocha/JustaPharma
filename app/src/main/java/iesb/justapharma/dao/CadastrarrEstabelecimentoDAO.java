@@ -5,26 +5,17 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import iesb.justapharma.domain.Estabelecimento;
+import iesb.justapharma.domain.Medicamento;
+
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
-public class CadastrarrEstabelecimentoDAO extends SQLiteOpenHelper
- {
-     public CadastrarrEstabelecimentoDAO(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-         super(context, name, factory, version);
-     }
+public class CadastrarrEstabelecimentoDAO {
 
-     public CadastrarrEstabelecimentoDAO(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
-         super(context, name, factory, version, errorHandler);
-     }
+ public void salvarDenuncia(Estabelecimento estabelecimento){
 
-     @Override
-     public void onCreate(SQLiteDatabase db) {
+  estabelecimento.saveInBackground();
 
-     }
-
-     @Override
-     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-     }
  }
+}

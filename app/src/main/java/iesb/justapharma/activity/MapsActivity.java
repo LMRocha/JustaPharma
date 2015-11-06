@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import iesb.justapharma.R;
+import iesb.justapharma.domain.Medicamento;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,15 +40,22 @@ public class MapsActivity extends FragmentActivity {
     private Button btGetEndereco;
     private Location minhaLocalizacao;
     private Address mapEndereco;
+    private Medicamento medicamento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        medicamento = new Medicamento();
         endereco = (EditText) findViewById(R.id.endereco);
         btGetEndereco = (Button) findViewById(R.id.btGetEndereco);
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        medicamento.setPrincipioAtivo(extras.getString("MED_PRINCIPIO_ATIVO"));
+        medicamento.setProduto(extras.getString("MED_PRODUTO"));
+        medicamento.setValorExcedente(extras.getDouble("MED_EXCEDENTE"));
     }
 
     @Override
@@ -127,8 +135,11 @@ public class MapsActivity extends FragmentActivity {
     public void selecionarEndereco(View view){
 
         Intent intent = new Intent(this, CadastrarEstabelecimento.class);
+        intent.putExtra("MED_PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
+        intent.putExtra("MED_PRODUTO", medicamento.getProduto());
+        intent.putExtra("MED_EXCEDENTE",medicamento.getValorExcedente());
         intent.putExtra("ENDERECO_RASTREADO",this.endereco.getText().toString());
-        intent.putExtra("INTENT_MAPS", "FROM_MAPS_ACTIVITY");
+        intent.putExtra("ID", "FROM_MAPS_ACTIVITY");
         startActivity(intent);
 
 

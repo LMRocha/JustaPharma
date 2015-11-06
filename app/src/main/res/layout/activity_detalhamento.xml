@@ -55,6 +55,6 @@
         android:id="@+id/bt_cadastrarEstabelecimento"
         android:background="@drawable/img_signup"
         android:layout_gravity="center_horizontal"
-        android:onClick="cadastrarEstabelecimento" />
+        android:onClick="enviarDenuncia" />
 
 </LinearLayout>

@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import iesb.justapharma.R;
+import iesb.justapharma.domain.Estabelecimento;
 import iesb.justapharma.domain.Medicamento;
 import iesb.justapharma.domain.PrecoMargemEnum;
 import iesb.justapharma.service.ConsultarMedicamentoService;
@@ -24,6 +25,7 @@ import iesb.justapharma.service.ConsultarMedicamentoService;
 public class Detalhamento extends ActionBarActivity {
 
     ConsultarMedicamentoService consultarMedicamentoService = new ConsultarMedicamentoService();
+    Medicamento medicamento;
     int i = 0;
 
     String PRINCIPIO_ATIVO;
@@ -57,19 +59,29 @@ public class Detalhamento extends ActionBarActivity {
         // Implementa��o do icone para o campo Pre�o dentro da Margem
         if(!Boolean.parseBoolean(extras.get("PRECO_MARGEM").toString())){
             imgDentroMargem.setImageResource(R.drawable.img_refuse);
-            txtMensagemPreco.setText("Você está pagando mais caro, o valor está "+extras.getDouble("EXCEDENTE")+
+            txtMensagemPreco.setText("Você está pagando mais caro, o valor está " + extras.getDouble("EXCEDENTE") +
                     " R$ acima do permitido pela legislação!!");
+
+            medicamento = new Medicamento();
+            medicamento.setProduto(extras.getString("PRODUTO"));
+            medicamento.setPrincipioAtivo(extras.getString("PRINCIPIO_ATIVO"));
+            medicamento.setValorExcedente(extras.getDouble("EXCEDENTE"));
+
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
             txtMensagemPreco.setText("Tudo certo, o preço está dentro do estipulado!!");
         }
     }
 
-    public void cadastrarEstabelecimento(View view){
-
+    public void enviarDenuncia(View view){
+        Estabelecimento estabelecimento = new Estabelecimento();
+        //estabelecimento.setNome(txtNomeUsuario);
         Intent intent = new Intent(this,CadastrarEstabelecimento.class);
+        intent.putExtra("PRODUTO",medicamento.getProduto());
+        intent.putExtra("EXCEDENTE", medicamento.getValorExcedente());
+        intent.putExtra("PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
+        intent.putExtra("ID","detalhamento");
         startActivity(intent);
-
     }
 
     public void rastrearEndereco(View v){

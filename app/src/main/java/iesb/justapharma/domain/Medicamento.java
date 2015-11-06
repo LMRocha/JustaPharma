@@ -1,5 +1,8 @@
 package iesb.justapharma.domain;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -7,7 +10,7 @@ import com.parse.ParseObject;
  * Created by SAMSUNG on 11/08/2015.
  */
 @ParseClassName("medicamentos")
-public class Medicamento extends ParseObject{
+public class Medicamento extends ParseObject implements  Parcelable{
 /*
     private double preco;
     private String codigoBarras;
@@ -170,4 +173,13 @@ public class Medicamento extends ParseObject{
         put("PMC_19",pmc);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }
