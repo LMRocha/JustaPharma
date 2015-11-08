@@ -2,6 +2,7 @@ package iesb.justapharma.activity;
 
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -71,15 +72,23 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
         estabelecimento = new Estabelecimento();
         cadastrarEstabelecimentoService = new CadastrarEstabelecimentoService();
 
+        String descricao = "O medicamento "
+                +medicamento.getProduto()
+                +" está "+medicamento.getValorExcedente()
+                +" R$ acima do permitido, segundo a regra do PMC (Preço máximo do consumidor)";
+
+
         estabelecimento.setNomeFantasia(nomeFantasia.getText().toString());
         estabelecimento.setCNPJ(cnpj.getText().toString());
         estabelecimento.setEndereco(endereco.getText().toString());
         estabelecimento.setNome(txtUsrNome.getText().toString());
         estabelecimento.setCPF(CPF.getText().toString());
         estabelecimento.setEnderecoDenunciante(txtUsrEndereco.getText().toString());
+        estabelecimento.setDescricao(descricao);
 
         try {
             cadastrarEstabelecimentoService.enviarDenuncia(estabelecimento, medicamento);
+            enviarEmailAuditoria(estabelecimento);
             Toast.makeText(getApplicationContext(), "Denúncia efetuada..", Toast.LENGTH_LONG).show();
 
         }catch (Exception e){
@@ -102,6 +111,39 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
         intent.putExtra("MED_PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
         startActivity(intent);
     }
+
+    private void enviarEmailAuditoria(Estabelecimento estabelecimento){
+        String mail = "lauro.mrocha@gmail.com";
+        String subject = "Denuncia";
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(Uri.parse("mailto:"));
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {mail});
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, "Estabelecimento: " + estabelecimento.getNomeFantasia() + "\n "
+                + "CNPJ: " + estabelecimento.getCNPJ()
+                + " \n"
+                + "Endereço: " + estabelecimento.getEndereco()
+                + "\n"
+                + "\n"
+                + estabelecimento.getDescricao()
+                + "\n"
+                + "\n"
+                + "\n"
+                + "Dados do denunciante: "
+                + " \n"
+                + "Nome: " + estabelecimento.getNome()
+                + "\n"
+                + "CPF: " + estabelecimento.getCPF()
+                + "\n"
+                + "Endereço: " + estabelecimento.getEnderecoDenunciante()
+                + "\n"
+                + "\n"
+                + "--------------------//-------------------------");
+        startActivity(Intent.createChooser(intent, "Send Mail..."));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -11,31 +11,34 @@ import iesb.justapharma.domain.Medicamento;
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
-public class CadastrarEstabelecimentoService extends Activity {
+public class CadastrarEstabelecimentoService {
 
     CadastrarrEstabelecimentoDAO cadastrarrEstabelecimentoDAO = new CadastrarrEstabelecimentoDAO();
 
     public void enviarDenuncia(Estabelecimento estabelecimento, Medicamento medicamento){
 
-        String descricao = "O medicamento "
+
+        estabelecimento.setNomeMedicamento(medicamento.getProduto())/*String descricao = "O medicamento "
                 +medicamento.getProduto()
                 +" está "+medicamento.getValorExcedente()
                 +" R$ acima do permitido, segundo a regra do PMC (Preço máximo do consumidor)";
+*/;
+        estabelecimento.setDescricao(estabelecimento.getDescricao());
+        //enviarEmailAuditoria(estabelecimento);
 
-        estabelecimento.setNomeMedicamento(medicamento.getProduto());
-        estabelecimento.setDescricao(descricao);
-        enviarEmailAuditoria(estabelecimento);
-
-        //cadastrarrEstabelecimentoDAO.salvarDenuncia(estabelecimento);
+        cadastrarrEstabelecimentoDAO.salvarDenuncia(estabelecimento);
     }
 
+/*
     private void enviarEmailAuditoria(Estabelecimento estabelecimento){
+        String mail = "lauro.mrocha@gmail.com";
+        String subject = "Denuncia";
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","lauro.mrocha@gmail.com",null));
-        //intent.setData(Uri.parse("mailto:"));
-        //String[] to = {"lauro.mrocha@gmail.com","lauro.mrocha@gmail.com"};
-        //intent.putExtra(Intent.EXTRA_EMAIL, to);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Denúncia");
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(Uri.parse("mailto:"));
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[] {mail});
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, "Estabelecimento: " + estabelecimento.getNome() + "\n "
                 + "CNPJ: " + estabelecimento.getCNPJ()
                 + " \n"
@@ -56,7 +59,7 @@ public class CadastrarEstabelecimentoService extends Activity {
                 + "\n"
                 + "\n"
                 + "--------------------//-------------------------");
-        intent.setType("message/rfc822");
-        startActivity(Intent.createChooser(intent,"Send Email..."));
+        startActivity(Intent.createChooser(intent, "Send Mail..."));
     }
+*/
 }

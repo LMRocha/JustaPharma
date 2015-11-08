@@ -20,8 +20,10 @@ public class ParserHelper extends Application {
         ParseObject.registerSubclass(Estabelecimento.class);
         Parse.initialize(this, "iH9pUoflZiwuMnrPWOHkg0GYCa9OQ4zviMcdTMuV", "wPqzasyybYrdogqqIRRg5ZRef7zAiCqhDe8phZ82");
 
+/*
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("foo","bar");
         testObject.saveInBackground();
+*/
     }
 }
