@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.util.List;
+
 import iesb.justapharma.dao.CadastrarrEstabelecimentoDAO;
 import iesb.justapharma.domain.Estabelecimento;
 import iesb.justapharma.domain.Medicamento;
@@ -27,6 +29,11 @@ public class CadastrarEstabelecimentoService {
         //enviarEmailAuditoria(estabelecimento);
 
         cadastrarrEstabelecimentoDAO.salvarDenuncia(estabelecimento);
+    }
+
+    public List<Estabelecimento> listarEstabelecimentos(){
+
+        return cadastrarrEstabelecimentoDAO.listarEstabelecimentos();
     }
 
 /*

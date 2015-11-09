@@ -26,42 +26,63 @@ import java.util.List;
 import iesb.justapharma.R;
 import iesb.justapharma.domain.Estabelecimento;
 import iesb.justapharma.domain.Medicamento;
+import iesb.justapharma.service.CadastrarEstabelecimentoService;
 
 public class ListaEstabelecimentos extends Activity{
-
+    CadastrarEstabelecimentoService cadastrarEstabelecimentoService;
     List<Estabelecimento> estabelecimentos = new ArrayList<Estabelecimento>();
     ListView listVEstabelecimento;
     ListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_estabelecimentos);
-
+        cadastrarEstabelecimentoService = new CadastrarEstabelecimentoService();
         listVEstabelecimento = (ListView) findViewById(R.id.listVEstabelecimento);
         registerForContextMenu(listVEstabelecimento);
+
+        final Intent intent = new Intent(this, CadastrarEstabelecimento.class);
+
         listVEstabelecimento.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String message = "Você selecionou o estabelecimento "+
-                        estabelecimentos.get(position).getNomeFantasia();
-                        //String.valueOf((Estabelecimento)parent.getItemAtPosition(position));
 
-                Toast.makeText(ListaEstabelecimentos.this,message,Toast.LENGTH_LONG).show();
+                String message = "Você selecionou o estabelecimento " +
+                        estabelecimentos.get(position).getNomeFantasia();
+                String.valueOf((Estabelecimento) parent.getItemAtPosition(position));
+
+                Toast.makeText(ListaEstabelecimentos.this, message, Toast.LENGTH_LONG).show();
+
+                intent.putExtra("ID", "Lista_Estabelecimento");
+                intent.putExtra("NOME_ESTABELECIMENTO",estabelecimentos.get(position).getNomeFantasia());
+                intent.putExtra("CNPJ",estabelecimentos.get(position).getCNPJ());
+                intent.putExtra("ENDERECO",estabelecimentos.get(position).getEndereco());
+                intent.putExtra("NOME_DENUNCIANTE",estabelecimentos.get(position).getNome());
+                intent.putExtra("CPF",estabelecimentos.get(position).getCPF());
+                intent.putExtra("ENDERECO_DENUNCIANTE",estabelecimentos.get(position).getEnderecoDenunciante());
+                startActivity(intent);
+
             }
         });
 
-        Estabelecimento estabelecimento1 = new Estabelecimento();
+/*
+        */
+/*Estabelecimento estabelecimento1 = new Estabelecimento();
         estabelecimento1.setNomeFantasia("FARMA 1");
         Estabelecimento estabelecimento2 = new Estabelecimento();
         estabelecimento2.setNomeFantasia("FARMA 2");
         Estabelecimento estabelecimento3 = new Estabelecimento();
-        estabelecimento3.setNomeFantasia("FARMA 3");
+        estabelecimento3.setNomeFantasia("FARMA 3");*//*
+
 
         estabelecimentos.add(estabelecimento1);
         estabelecimentos.add(estabelecimento2);
         estabelecimentos.add(estabelecimento3);
+*/
 
+        estabelecimentos.addAll(cadastrarEstabelecimentoService.listarEstabelecimentos());
         montarListaEstabelecimentos();
     }
 
@@ -139,8 +160,12 @@ public class ListaEstabelecimentos extends Activity{
             Estabelecimento currentEstabelecimento = estabelecimentos.get(position);
 
             TextView nomeEstabelecimento = (TextView) view.findViewById(R.id.txtNomeEstabelecimento);
+            TextView dataDenuncia = (TextView) view.findViewById(R.id.txtDataDenuncia);
+            TextView nomeMedicamento = (TextView) view.findViewById(R.id.txtMedicamento);
 
             nomeEstabelecimento.setText(currentEstabelecimento.getNomeFantasia());
+            dataDenuncia.setText(currentEstabelecimento.getCreatedAt().toString());
+            nomeMedicamento.setText(currentEstabelecimento.getNomeMedicamento());
 
             return view;
         }

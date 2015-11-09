@@ -64,7 +64,7 @@
         android:layout_below="@+id/numPrecoAtual"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
-        android:onClick="consultarCompleta"
+        android:onClick="consultarDenuncias"
         android:clickable="true"
         android:adjustViewBounds="true"/>
 

@@ -5,6 +5,8 @@ import android.widget.Adapter;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Date;
+
 /**
  * Created by SAMSUNG on 11/08/2015.
  */
@@ -78,6 +80,13 @@ public class Estabelecimento extends ParseObject {
 
     public void setNomeMedicamento(String nomeMedicamento) {
         put("nome_medicamento", nomeMedicamento);
+    }
+    public Date getDataDenuncia(){
+       return getDate("createdAt");
+    }
+
+    public void setDataDenuncia(Date dataDenuncia){
+        put("createdAt",dataDenuncia);
     }
 
     public String getDescricao() {

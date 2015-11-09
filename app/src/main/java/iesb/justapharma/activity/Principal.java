@@ -90,6 +90,12 @@ public class Principal extends Activity {
         integrator.initiateScan();
     }
 
+    public void consultarDenuncias(View view){
+        Intent intent = new Intent(this, ListaEstabelecimentos.class);
+        intent.putExtra("ID","Principal");
+        startActivity(intent);
+    }
+
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String barcode = "7896422516754";

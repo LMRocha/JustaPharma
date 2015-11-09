@@ -63,6 +63,13 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
                 medicamento.setProduto(extras.getString("PRODUTO"));
                 medicamento.setValorExcedente(extras.getDouble("EXCEDENTE"));
                 medicamento.setPrincipioAtivo(extras.getString("PRINCIPIO_ATIVO"));
+            }else if(extras.getString("ID").equals("Lista_Estabelecimento")){
+                nomeFantasia.setText(extras.getString("NOME_ESTABELECIMENTO"));
+                cnpj.setText(extras.getString("CNPJ"));
+                endereco.setText(extras.getString("ENDERECO"));
+                txtUsrNome.setText(extras.getString("NOME_DENUNCIANTE"));
+                CPF.setText(extras.getString("CPF"));
+                txtUsrEndereco.setText(extras.getString("ENDERECO_DENUNCIANTE"));
             }
         }
 
