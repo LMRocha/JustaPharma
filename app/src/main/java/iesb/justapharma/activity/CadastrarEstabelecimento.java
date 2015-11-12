@@ -70,37 +70,59 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
                 txtUsrNome.setText(extras.getString("NOME_DENUNCIANTE"));
                 CPF.setText(extras.getString("CPF"));
                 txtUsrEndereco.setText(extras.getString("ENDERECO_DENUNCIANTE"));
+
+                nomeFantasia.setEnabled(false);
+                cnpj.setEnabled(false);
+                endereco.setEnabled(false);
+                txtUsrNome.setEnabled(false);
+                CPF.setEnabled(false);
+                txtUsrEndereco.setEnabled(false);
             }
         }
 
     }
 
     public void salvarEstabelecimento(View v){
-        estabelecimento = new Estabelecimento();
-        cadastrarEstabelecimentoService = new CadastrarEstabelecimentoService();
+        if(nomeFantasia.getText().toString().isEmpty()){
+            nomeFantasia.setError("Campo de preenchimento obrigatório");
+        }else if(cnpj.getText().toString().isEmpty()){
+            cnpj.setError("Campo de preenchimento obrigatório");
+        }else if (endereco.getText().toString().isEmpty()){
+            endereco.setError("Campo de preenchimento obrigatório");
+        }else if(txtUsrNome.getText().toString().isEmpty()){
+            txtUsrNome.setError("Campo de preenchimento obrigatório");
+        }else if(CPF.getText().toString().isEmpty()){
+            CPF.setError("Campo de preenchimento obrigatório");
+        }else if(txtUsrEndereco.getText().toString().isEmpty()){
+            txtUsrEndereco.setError("Campo de preenchimento obrigatório");
+        }else {
 
-        String descricao = "O medicamento "
-                +medicamento.getProduto()
-                +" está "+medicamento.getValorExcedente()
-                +" R$ acima do permitido, segundo a regra do PMC (Preço máximo do consumidor)";
+            estabelecimento = new Estabelecimento();
+            cadastrarEstabelecimentoService = new CadastrarEstabelecimentoService();
+
+            String descricao = "O medicamento "
+                    + medicamento.getProduto()
+                    + " está " + medicamento.getValorExcedente()
+                    + " R$ acima do permitido, segundo a regra do PMC (Preço máximo do consumidor)";
 
 
-        estabelecimento.setNomeFantasia(nomeFantasia.getText().toString());
-        estabelecimento.setCNPJ(cnpj.getText().toString());
-        estabelecimento.setEndereco(endereco.getText().toString());
-        estabelecimento.setNome(txtUsrNome.getText().toString());
-        estabelecimento.setCPF(CPF.getText().toString());
-        estabelecimento.setEnderecoDenunciante(txtUsrEndereco.getText().toString());
-        estabelecimento.setDescricao(descricao);
+            estabelecimento.setNomeFantasia(nomeFantasia.getText().toString());
+            estabelecimento.setCNPJ(cnpj.getText().toString());
+            estabelecimento.setEndereco(endereco.getText().toString());
+            estabelecimento.setNome(txtUsrNome.getText().toString());
+            estabelecimento.setCPF(CPF.getText().toString());
+            estabelecimento.setEnderecoDenunciante(txtUsrEndereco.getText().toString());
+            estabelecimento.setDescricao(descricao);
 
-        try {
-            cadastrarEstabelecimentoService.enviarDenuncia(estabelecimento, medicamento);
-            enviarEmailAuditoria(estabelecimento);
-            Toast.makeText(getApplicationContext(), "Denúncia efetuada..", Toast.LENGTH_LONG).show();
+            try {
+                cadastrarEstabelecimentoService.enviarDenuncia(estabelecimento, medicamento);
+                enviarEmailAuditoria(estabelecimento);
+                Toast.makeText(getApplicationContext(), "Denúncia efetuada..", Toast.LENGTH_LONG).show();
 
-        }catch (Exception e){
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Ocorreu um erro ao enviar a denúncia", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Ocorreu um erro ao enviar a denúncia", Toast.LENGTH_LONG).show();
+            }
         }
 
             }

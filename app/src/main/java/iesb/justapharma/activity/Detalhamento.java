@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class Detalhamento extends ActionBarActivity {
     TextView txtStatus;
     TextView txtCodBarras;
     TextView txtMensagemPreco;
+    ImageButton btCadastrarEstabelecimento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class Detalhamento extends ActionBarActivity {
         txtCodBarras = (TextView) findViewById(R.id.txtCodBarras);
         txtMensagemPreco = (TextView) findViewById(R.id.txtMensagemPreco);
         imgDentroMargem = (ImageView) findViewById(R.id.imgDentroMargem);
+        btCadastrarEstabelecimento = (ImageButton) findViewById(R.id.bt_cadastrarEstabelecimento);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -69,6 +72,7 @@ public class Detalhamento extends ActionBarActivity {
 
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
+            btCadastrarEstabelecimento.setVisibility(View.INVISIBLE);
             txtMensagemPreco.setText("Tudo certo, o preço está dentro do estipulado!!");
         }
     }

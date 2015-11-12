@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.provider.Telephony;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -99,9 +100,24 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         mMap.setMyLocationEnabled(true);
-        mMap.getMyLocation();
+
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if(loc == null) {
+            loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+        minhaLocalizacao = loc;
+        //minhaLocalizacao = mMap.getMyLocation();
+        LatLng latLng = new LatLng(minhaLocalizacao.getLatitude(), minhaLocalizacao.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+        //getLocationAddress(minhaLocalizacao);
+
+
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -110,9 +126,10 @@ public class MapsActivity extends FragmentActivity {
                 minhaLocalizacao = mMap.getMyLocation();
                 LatLng latLng = new LatLng(minhaLocalizacao.getLatitude(), minhaLocalizacao.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
-                getLocationAddress(minhaLocalizacao);
+                getLocationAddress(mMap.getMyLocation());
 
                 return true;
             }

@@ -86,8 +86,12 @@ public class Principal extends Activity {
     }
 
     public void escanearCodigoBarra(View v){
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.initiateScan();
+        if(numPrecoAtual.getText().toString().isEmpty()){
+            numPrecoAtual.setError("Campo 'Preço Atual' é de preenchimento obrigatório");
+        }else {
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.initiateScan();
+        }
     }
 
     public void consultarDenuncias(View view){
@@ -98,8 +102,8 @@ public class Principal extends Activity {
 
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        String barcode = "7896422516754";
-        //numCodBarras.setText(barcode);
+        String barcode;
+        //String barcode = "7896422516754";
 
          /*try {
              consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
@@ -108,9 +112,9 @@ public class Principal extends Activity {
          }*/
 
          if(scanResult != null){
-           // String barcode;
-            //barcode = scanResult.getContents();
-            //numCodBarras.setText(barcode);
+             //barcode = "7896422516754";
+             barcode = scanResult.getContents();
+             numCodBarras.setText(barcode);
             try {
                 consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
             } catch (ParseException e) {
