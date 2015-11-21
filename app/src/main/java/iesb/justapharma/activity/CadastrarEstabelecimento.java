@@ -88,20 +88,6 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
     }
 
     public void salvarEstabelecimento(View v){
-        if(nomeFantasia.getText().toString().isEmpty()){
-            nomeFantasia.setError("Campo de preenchimento obrigatório");
-        }else if(cnpj.getText().toString().isEmpty()){
-            cnpj.setError("Campo de preenchimento obrigatório");
-        }else if (endereco.getText().toString().isEmpty()){
-            endereco.setError("Campo de preenchimento obrigatório");
-        }else if(txtUsrNome.getText().toString().isEmpty()){
-            txtUsrNome.setError("Campo de preenchimento obrigatório");
-        }else if(CPF.getText().toString().isEmpty()){
-            CPF.setError("Campo de preenchimento obrigatório");
-        }else if(txtUsrEndereco.getText().toString().isEmpty()){
-            txtUsrEndereco.setError("Campo de preenchimento obrigatório");
-        }else {
-
             estabelecimento = new Estabelecimento();
             cadastrarEstabelecimentoService = new CadastrarEstabelecimentoService();
 
@@ -128,9 +114,8 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Ocorreu um erro ao enviar a denúncia", Toast.LENGTH_LONG).show();
             }
-        }
 
-            }
+    }
 
     public void listarEstabelecimentos(View v){
         Intent intent = new Intent(this,ListaEstabelecimentos.class);

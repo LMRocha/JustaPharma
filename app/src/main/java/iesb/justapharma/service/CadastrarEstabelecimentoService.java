@@ -19,14 +19,14 @@ public class CadastrarEstabelecimentoService {
 
     public void enviarDenuncia(Estabelecimento estabelecimento, Medicamento medicamento){
 
+        estabelecimento.setNomeMedicamento(medicamento.getProduto());
 
-        estabelecimento.setNomeMedicamento(medicamento.getProduto())/*String descricao = "O medicamento "
+        String descricao = "O medicamento "
                 +medicamento.getProduto()
                 +" está "+medicamento.getValorExcedente()
                 +" R$ acima do permitido, segundo a regra do PMC (Preço máximo do consumidor)";
-*/;
+
         estabelecimento.setDescricao(estabelecimento.getDescricao());
-        //enviarEmailAuditoria(estabelecimento);
 
         cadastrarrEstabelecimentoDAO.salvarDenuncia(estabelecimento);
     }

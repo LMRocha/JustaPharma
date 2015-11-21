@@ -102,26 +102,28 @@ public class Principal extends Activity {
     }
 
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
-       // IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String barcode;
-         barcode = "7896422516754";
+         //barcode = "7896422516754";
 
+/*
          try {
              consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
          } catch (ParseException e) {
              e.printStackTrace();
          }
+*/
 
-        /* if(scanResult != null){
-             barcode = "7896422516754";
-             //barcode = scanResult.getContents();
+         if(scanResult != null){
+
+             barcode = scanResult.getContents();
              numCodBarras.setText(barcode);
             try {
                 consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
     @Override

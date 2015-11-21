@@ -73,7 +73,7 @@ public class Detalhamento extends ActionBarActivity {
             medicamento.setProduto(extras.getString("PRODUTO"));
             medicamento.setPrincipioAtivo(extras.getString("PRINCIPIO_ATIVO"));
             medicamento.setValorExcedente(extras.getDouble("EXCEDENTE"));
-            medicamento.setValorExcedente(extras.getDouble("LABORATORIO"));
+            medicamento.setLaboratorio(extras.getString("LABORATORIO"));
 
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
@@ -83,7 +83,7 @@ public class Detalhamento extends ActionBarActivity {
     }
 
     public void enviarDenuncia(View view){
-        Estabelecimento estabelecimento = new Estabelecimento();
+       // Estabelecimento estabelecimento = new Estabelecimento();
         //estabelecimento.setNome(txtNomeUsuario);
         Intent intent = new Intent(this,CadastrarEstabelecimento.class);
         intent.putExtra("PRODUTO",medicamento.getProduto());
