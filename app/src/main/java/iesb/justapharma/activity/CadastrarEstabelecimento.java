@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
     EditText txtUsrEndereco;
     EditText CPF;
     ImageView imgDentroMargem;
+    Button btLocalizar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
         txtUsrNome = (EditText) findViewById(R.id.txtUsrName);
         txtUsrEndereco = (EditText) findViewById(R.id.txtUsrEndereco);
         CPF = (EditText) findViewById(R.id.txtCpf);
+        btLocalizar = (Button) findViewById(R.id.btGetEndereco);
 
         Intent intent = getIntent();
         if(intent != null && (intent.getExtras() != null)){
@@ -77,6 +81,7 @@ public class CadastrarEstabelecimento extends ActionBarActivity {
                 txtUsrNome.setEnabled(false);
                 CPF.setEnabled(false);
                 txtUsrEndereco.setEnabled(false);
+                btLocalizar.setEnabled(false);
             }
         }
 

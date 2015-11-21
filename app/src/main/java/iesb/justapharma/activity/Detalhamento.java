@@ -38,6 +38,7 @@ public class Detalhamento extends ActionBarActivity {
     TextView txtStatus;
     TextView txtCodBarras;
     TextView txtMensagemPreco;
+    TextView txtLaboratorio;
     ImageButton btCadastrarEstabelecimento;
 
     @Override
@@ -48,9 +49,11 @@ public class Detalhamento extends ActionBarActivity {
         txtPrincipioAtivo = (TextView) findViewById(R.id.txtPrincipioAtivo);
         txtNomeMedicamento = (TextView) findViewById(R.id.txtNomeMed);
         txtCodBarras = (TextView) findViewById(R.id.txtCodBarras);
+        txtLaboratorio = (TextView) findViewById(R.id.txtLab);
         txtMensagemPreco = (TextView) findViewById(R.id.txtMensagemPreco);
         imgDentroMargem = (ImageView) findViewById(R.id.imgDentroMargem);
         btCadastrarEstabelecimento = (ImageButton) findViewById(R.id.bt_cadastrarEstabelecimento);
+
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -58,17 +61,19 @@ public class Detalhamento extends ActionBarActivity {
         txtCodBarras.setText(extras.getString("COD_BARRAS"));
         txtPrincipioAtivo.setText(extras.getString("PRINCIPIO_ATIVO"));
         txtNomeMedicamento.setText(extras.getString("PRODUTO"));
+        txtLaboratorio.setText(extras.getString("LABORATORIO"));
 
         // Implementa��o do icone para o campo Pre�o dentro da Margem
         if(!Boolean.parseBoolean(extras.get("PRECO_MARGEM").toString())){
             imgDentroMargem.setImageResource(R.drawable.img_refuse);
-            txtMensagemPreco.setText("Você está pagando mais caro, o valor está " + extras.getDouble("EXCEDENTE") +
-                    " R$ acima do permitido pela legislação!!");
+            txtMensagemPreco.setText("Você está pagando mais caro, o valor está R$ " + extras.getDouble("EXCEDENTE") +
+                    " acima do permitido pela legislação!!");
 
             medicamento = new Medicamento();
             medicamento.setProduto(extras.getString("PRODUTO"));
             medicamento.setPrincipioAtivo(extras.getString("PRINCIPIO_ATIVO"));
             medicamento.setValorExcedente(extras.getDouble("EXCEDENTE"));
+            medicamento.setValorExcedente(extras.getDouble("LABORATORIO"));
 
         }else{
             imgDentroMargem.setImageResource(R.drawable.img_accept);
@@ -83,7 +88,8 @@ public class Detalhamento extends ActionBarActivity {
         Intent intent = new Intent(this,CadastrarEstabelecimento.class);
         intent.putExtra("PRODUTO",medicamento.getProduto());
         intent.putExtra("EXCEDENTE", medicamento.getValorExcedente());
-        intent.putExtra("PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
+        intent.putExtra("PRINCIPIO_ATIVO", medicamento.getPrincipioAtivo());
+        intent.putExtra("LABORATORIO", medicamento.getLaboratorio());
         intent.putExtra("ID","detalhamento");
         startActivity(intent);
     }

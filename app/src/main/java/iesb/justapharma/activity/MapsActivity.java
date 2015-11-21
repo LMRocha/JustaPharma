@@ -129,7 +129,7 @@ public class MapsActivity extends FragmentActivity {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
-                getLocationAddress(mMap.getMyLocation());
+                getLocationAddress(minhaLocalizacao);
 
                 return true;
             }

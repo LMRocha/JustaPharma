@@ -27,4 +27,12 @@
         android:id="@+id/txtMedicamento"
         android:layout_weight="0.06" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Medicamento"
+        android:id="@+id/txtLab"
+        android:layout_weight="0.06" />
+
 </LinearLayout>

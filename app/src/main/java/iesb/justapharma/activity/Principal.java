@@ -80,6 +80,7 @@ public class Principal extends Activity {
         intent.putExtra("PRINCIPIO_ATIVO",medicamento.getPrincipioAtivo());
         intent.putExtra("PRODUTO",medicamento.getProduto());
         intent.putExtra("EXCEDENTE",medicamento.getValorExcedente());
+        intent.putExtra("LABORATORIO",medicamento.getLaboratorio());
         //intent.putExtra("MEDICAMENTO", (Parcelable) medicamento);
         intent.putExtra("ID","principal");
         startActivity(intent);
@@ -101,26 +102,26 @@ public class Principal extends Activity {
     }
 
      public void onActivityResult(int requestCode, int resultCode, Intent intent){
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+       // IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         String barcode;
-        //String barcode = "7896422516754";
+         barcode = "7896422516754";
 
-         /*try {
+         try {
              consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
          } catch (ParseException e) {
              e.printStackTrace();
-         }*/
+         }
 
-         if(scanResult != null){
-             //barcode = "7896422516754";
-             barcode = scanResult.getContents();
+        /* if(scanResult != null){
+             barcode = "7896422516754";
+             //barcode = scanResult.getContents();
              numCodBarras.setText(barcode);
             try {
                 consultarCodigoBarras(barcode,Double.parseDouble(numPrecoAtual.getText().toString()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override

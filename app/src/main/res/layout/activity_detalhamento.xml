@@ -33,6 +33,14 @@
         android:gravity="center_horizontal"
         android:id="@+id/txtNomeMed" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Lab"
+        android:gravity="center_horizontal"
+        android:id="@+id/txtLab" />
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"

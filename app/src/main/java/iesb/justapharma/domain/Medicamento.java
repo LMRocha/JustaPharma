@@ -10,7 +10,7 @@ import com.parse.ParseObject;
  * Created by SAMSUNG on 11/08/2015.
  */
 @ParseClassName("medicamentos")
-public class Medicamento extends ParseObject implements  Parcelable{
+public class Medicamento extends ParseObject{
 /*
     private double preco;
     private String codigoBarras;
@@ -173,13 +173,13 @@ public class Medicamento extends ParseObject implements  Parcelable{
         put("PMC_19",pmc);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getLaboratorio(){
+
+        return getString("LABORATORIO");
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void setLaboratorio(String laboratorio){
 
+         put("LABORATORIO",laboratorio);
     }
 }

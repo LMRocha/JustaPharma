@@ -162,10 +162,12 @@ public class ListaEstabelecimentos extends Activity{
             TextView nomeEstabelecimento = (TextView) view.findViewById(R.id.txtNomeEstabelecimento);
             TextView dataDenuncia = (TextView) view.findViewById(R.id.txtDataDenuncia);
             TextView nomeMedicamento = (TextView) view.findViewById(R.id.txtMedicamento);
+            //TextView laboratorio = (TextView) view.findViewById(R.id.txtLab);
 
             nomeEstabelecimento.setText(currentEstabelecimento.getNomeFantasia());
             dataDenuncia.setText(currentEstabelecimento.getCreatedAt().toString());
             nomeMedicamento.setText(currentEstabelecimento.getNomeMedicamento());
+            //laboratorio.setText(currentEstabelecimento.);
 
             return view;
         }
